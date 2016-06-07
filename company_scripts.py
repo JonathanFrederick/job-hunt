@@ -24,9 +24,14 @@ def red_hat(driver):
     # assert page_title in driver.title, \
     #     "'{}' not found, check url".format(page_title)
     driver.switch_to_frame(driver.find_element_by_name('icims_content_iframe'))
-    kw_elem = driver.find_element_by_name('searchKeyword')
-    kw_elem.send_keys('python')
-    kw_elem.send_keys(Keys.RETURN)
+    elem = driver.find_element_by_name('searchKeyword')
+    elem.send_keys('python')
+    driver.find_element_by_xpath(
+        "//select[@name='searchCategory']/option[@value='17505']").click()
+    driver.find_element_by_xpath(
+        "//select[@name='searchLocation']/option[@value='12781-12817-Raleigh']"
+        ).click()
+    elem.send_keys(Keys.RETURN)
 
 
 def main():
