@@ -33,13 +33,17 @@ def red_hat(driver):
         ).click()
     elem.send_keys(Keys.RETURN)
 
+    elems = driver.find_elements_by_xpath(
+        "//table[@class='iCIMS_JobsTable iCIMS_Table']/tbody/tr/td[@itemprop='title']/a")
+    for el in elems:
+        print(el.get_attribute('href'))
 
 def main():
     driver = webdriver.Firefox()
 
     red_hat(driver)
 
-    # driver.close()
+    driver.close()
     # print_result({'company': 'comp',
     #               'title': 'title',
     #               'url': 'url.com',
