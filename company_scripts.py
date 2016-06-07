@@ -1,3 +1,5 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 
 def print_result(info):
@@ -15,11 +17,29 @@ def print_result(info):
     print(info['description'])
 
 
+def red_hat(driver):
+    page_url = 'https://careers-redhat.icims.com/jobs/search?mobile=false&width=900&height=500&bga=true&needsRedirect=false&jan1offset=-300&jun1offset=-240'
+    page_title = 'Red Hat Jobs'
+    driver.get(page_url)
+    # assert page_title in driver.title, \
+    #     "'{}' not found, check url".format(page_title)
+    driver.switch_to_frame(driver.find_element_by_name('icims_content_iframe'))
+    kw_elem = driver.find_element_by_name('searchKeyword')
+    kw_elem.send_keys('python')
+    kw_elem.send_keys(Keys.RETURN)
+
+
 def main():
-    print_result({'company': 'comp',
-                  'title': 'title',
-                  'url': 'url.com',
-                  'description': 'things and stuff'})
+    driver = webdriver.Firefox()
+
+    red_hat(driver)
+
+    # driver.close()
+    # print_result({'company': 'comp',
+    #               'title': 'title',
+    #               'url': 'url.com',
+    #               'description': 'things and stuff'})
+
 
 if __name__ == "__main__":
     main()
