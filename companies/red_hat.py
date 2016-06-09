@@ -2,13 +2,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
 
-def red_hat(driver):
-    page_url = 'https://careers-redhat.icims.com/jobs/search?'
-    page_title = 'Red Hat Jobs'
-    driver.get(page_url)
-    # assert page_title in driver.title, \
-    #     "'{}' not found, check url".format(page_title)
-
+def fill_form(driver):
     # move driver to iframe with form
     driver.switch_to_frame(driver.find_element_by_name('icims_content_iframe'))
 
@@ -22,6 +16,10 @@ def red_hat(driver):
         ).click()
     elem.send_keys(Keys.RETURN)
 
+    return driver
+
+
+def get_listing_urls(driver):
     # grab list of listing urls
     urls = []
     while True:
@@ -45,3 +43,17 @@ def red_hat(driver):
 
     for url in urls:
         print(url)
+
+    return urls
+
+
+def red_hat(driver):
+    page_url = 'https://careers-redhat.icims.com/jobs/search'
+    page_title = 'Red Hat Jobs'
+    driver.get(page_url)
+
+    # assert page_title in driver.title, \
+    #     "'{}' not found, check url".format(page_title)
+
+    driver = fill_form(driver)
+    urls = get_listing_urls(driver)
