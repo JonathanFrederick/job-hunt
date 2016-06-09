@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException, \
+    StaleElementReferenceException
 
 
 def print_result(info):
@@ -19,7 +20,7 @@ def print_result(info):
 
 
 def red_hat(driver):
-    page_url = 'https://careers-redhat.icims.com/jobs/search?mobile=false&width=900&height=500&bga=true&needsRedirect=false&jan1offset=-300&jun1offset=-240'
+    page_url = 'https://careers-redhat.icims.com/jobs/search?'
     page_title = 'Red Hat Jobs'
     driver.get(page_url)
     # assert page_title in driver.title, \
@@ -30,12 +31,12 @@ def red_hat(driver):
 
     # select desired form inputs
     elem = driver.find_element_by_name('searchKeyword')  # Keyword
-    elem.send_keys('engineer')
+    elem.send_keys('python')
     driver.find_element_by_xpath(  # Category
         "//select[@name='searchCategory']/option[@value='17505']").click()
-    # driver.find_element_by_xpath(  # Location
-    #     "//select[@name='searchLocation']/option[@value='12781-12817-Raleigh']"
-    #     ).click()
+    driver.find_element_by_xpath(  # Location
+        "//select[@name='searchLocation']/option[@value='12781-12817-Raleigh']"
+        ).click()
     elem.send_keys(Keys.RETURN)
 
     # grab list of listing urls
