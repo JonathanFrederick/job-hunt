@@ -2,9 +2,15 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
 
+def get_content(driver, url):
+    driver.get(url)
+    driver.switch_to_frame(driver.find_element_by_name('icims_content_iframe'))
+    return driver
+
+
 def fill_form(driver):
     # move driver to iframe with form
-    driver.switch_to_frame(driver.find_element_by_name('icims_content_iframe'))
+    # driver.switch_to_frame(driver.find_element_by_name('icims_content_iframe'))
 
     # select desired form inputs
     elem = driver.find_element_by_name('searchKeyword')  # Keyword
@@ -30,7 +36,7 @@ def get_listing_urls(driver):
 
         # append url from each anchor tag to url list
         for el in elems:
-            urls.append(el.get_attribute('href'))
+            urls.append(el.get_attribute('href')[:-12])
 
         # check for a next button and click
         try:
@@ -41,8 +47,8 @@ def get_listing_urls(driver):
         except NoSuchElementException:
             break
 
-    for url in urls:
-        print(url)
+    # for url in urls:
+    #     print(url)
 
     return urls
 
@@ -50,10 +56,14 @@ def get_listing_urls(driver):
 def red_hat(driver):
     page_url = 'https://careers-redhat.icims.com/jobs/search'
     page_title = 'Red Hat Jobs'
-    driver.get(page_url)
+    # driver.get(page_url)
+    driver = get_content(driver, page_url)
 
     # assert page_title in driver.title, \
     #     "'{}' not found, check url".format(page_title)
 
     driver = fill_form(driver)
     urls = get_listing_urls(driver)
+
+    for url in urls:
+        print(url)
