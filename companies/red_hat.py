@@ -1,10 +1,20 @@
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
-def get_content(driver, url):
+def get_frame(driver, url):
     driver.get(url)
-    driver.switch_to_frame(driver.find_element_by_name('icims_content_iframe'))
+    wait = WebDriverWait(driver, 10)
+    try:
+        elem = wait.until(EC.presence_of_element_located(
+            (By.NAME, 'icims_content_iframe'))
+            )
+        driver.switch_to_frame(elem)
+    finally:
+        pass
     return driver
 
 
@@ -47,23 +57,27 @@ def get_listing_urls(driver):
         except NoSuchElementException:
             break
 
-    # for url in urls:
-    #     print(url)
-
     return urls
+
+
+def get_content(driver):
+
+    return driver
 
 
 def red_hat(driver):
     page_url = 'https://careers-redhat.icims.com/jobs/search'
     page_title = 'Red Hat Jobs'
     # driver.get(page_url)
-    driver = get_content(driver, page_url)
+    driver = get_frame(driver, page_url)
 
     # assert page_title in driver.title, \
     #     "'{}' not found, check url".format(page_title)
 
     driver = fill_form(driver)
     urls = get_listing_urls(driver)
-
     for url in urls:
         print(url)
+
+        driver = get_frame(driver, url)
+        content = get_content(driver)
