@@ -5,16 +5,22 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-def get_frame(driver, url):
-    driver.get(url)
+def wait_for_element(driver, xpath):
     wait = WebDriverWait(driver, 10)
     try:
         elem = wait.until(EC.presence_of_element_located(
-            (By.NAME, 'icims_content_iframe'))
-            )
-        driver.switch_to_frame(elem)
+            (By.XPATH, xpath))
+        )
     finally:
         pass
+
+    return elem
+
+
+def get_frame(driver, url):
+    driver.get(url)
+    elem = wait_for_element(driver, "//iframe[@name='icims_content_iframe']")
+    driver.switch_to_frame(elem)
     return driver
 
 
@@ -61,7 +67,7 @@ def get_listing_urls(driver):
 
 
 def get_content(driver):
-    title = driver.find_element_by_xpath("//h1[@class='iCIMS_Header']").text
+    title = wait_for_element(driver, "//h1[@class='iCIMS_Header']").text
     head = driver.find_elements_by_xpath("//dd[@class='iCIMS_JobHeaderData']")
     return {'title': title,
             'company': 'Red Hat',
