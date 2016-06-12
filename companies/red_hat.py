@@ -61,8 +61,13 @@ def get_listing_urls(driver):
 
 
 def get_content(driver):
-
-    return driver
+    title = driver.find_element_by_xpath("//h1[@class='iCIMS_Header']").text
+    head = driver.find_elements_by_xpath("//dd[@class='iCIMS_JobHeaderData']")
+    return {'title': title,
+            'company': 'Red Hat',
+            'id': head[0].text,
+            'post_date': head[3].text
+            }
 
 
 def red_hat(driver):
@@ -76,8 +81,12 @@ def red_hat(driver):
 
     driver = fill_form(driver)
     urls = get_listing_urls(driver)
+    listings = []
     for url in urls:
-        print(url)
-
+        # print(url)
         driver = get_frame(driver, url)
-        content = get_content(driver)
+        listing = get_content(driver)
+        listing['url'] = url
+        listings.append(listing)
+
+    print(listings)
