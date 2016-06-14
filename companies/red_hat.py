@@ -4,6 +4,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from time import time
+from datetime import datetime
+
+
+def current_time():
+    return datetime.fromtimestamp(time()).strftime('%Y-%m-%d %H:%M:%S')
+
 
 def wait_for_element(driver, xpath):
     wait = WebDriverWait(driver, 10)
@@ -83,7 +90,8 @@ def get_content(driver):
             'company_desc': company_desc,
             'job_sum': job_sum,
             'responsibilities': resps,
-            'skills': skills
+            'skills': skills,
+            'time_scraped': current_time()
             }
 
 
