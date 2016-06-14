@@ -69,10 +69,21 @@ def get_listing_urls(driver):
 def get_content(driver):
     title = wait_for_element(driver, "//h1[@class='iCIMS_Header']").text
     head = driver.find_elements_by_xpath("//dd[@class='iCIMS_JobHeaderData']")
+    text_div_str = "//div[@class='iCIMS_InfoMsg iCIMS_InfoMsg_Job']"
+    company_desc = driver.find_element_by_xpath(text_div_str + '[1]').text
+    job_sum = driver.find_element_by_xpath(text_div_str + '[2]').text
+    resps = driver.find_elements_by_xpath(text_div_str + '[3]/div/div/ul/li')
+    resps = [r.text for r in resps]
+    skills = driver.find_elements_by_xpath(text_div_str + '[4]/div/div/ul/li')
+    skills = [s.text for s in skills]
     return {'title': title,
             'company': 'Red Hat',
             'id': head[0].text,
-            'post_date': head[3].text
+            'post_date': head[3].text,
+            'company_desc': company_desc,
+            'job_sum': job_sum,
+            'responsibilities': resps,
+            'skills': skills
             }
 
 
