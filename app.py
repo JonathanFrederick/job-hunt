@@ -13,7 +13,8 @@ from models import Listing
 
 @app.route("/", methods=['GET'])
 def index():
-    return render_template('index.html')
+    listings = db.session.query(Listing).all()
+    return render_template('index.html', listings=listings)
 
 if __name__ == "__main__":
     app.run()
