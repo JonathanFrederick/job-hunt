@@ -1,3 +1,8 @@
+<!DOCTYPE html>
 <html>
-  Hello World
+  <ul>
+    {% for listing in listings %}
+    <li><a href={{ listing.url }}>{{ listing.title }}</a></li>
+    {% endfor %}
+  </ul>
 </html>
