@@ -7,6 +7,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import time
 from datetime import datetime
 
+from app import db
+from models import Listing
+
 
 def current_time():
     return datetime.fromtimestamp(time()).strftime('%Y-%m-%d %H:%M:%S')
@@ -95,6 +98,16 @@ def get_content(driver):
             }
 
 
+def db_entry(listing):
+    entry = Listing(
+        url=listing['url'],
+        company=listing['company'],
+        title=listing['title']
+    )
+    db.session.add(entry)
+    db.session.commit()
+
+
 def red_hat(driver):
     page_url = 'https://careers-redhat.icims.com/jobs/search'
     page_title = 'Red Hat Jobs'
@@ -112,6 +125,7 @@ def red_hat(driver):
         driver = get_frame(driver, url)
         listing = get_content(driver)
         listing['url'] = url
+        db_entry(listing)
         listings.append(listing)
 
     print(listings)
