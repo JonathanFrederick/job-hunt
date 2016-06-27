@@ -2,7 +2,7 @@
 <html>
   <ul>
     {% for listing in listings %}
-    <li><a href={{ listing.url }}>{{ listing.title }}</a></li>
+    <li><a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a></li>
     {% endfor %}
   </ul>
 </html>
