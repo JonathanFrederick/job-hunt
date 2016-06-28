@@ -1,5 +1,6 @@
 from app import db
 from sqlalchemy.dialects.postgresql import JSON
+from datetime import datetime
 
 
 class Listing(db.Model):
@@ -9,11 +10,14 @@ class Listing(db.Model):
     url = db.Column(db.String())
     company = db.Column(db.String())
     title = db.Column(db.String())
+    status = db.Column(db.String())
 
     def __init__(self, url, company, title):
         self.url = url
         self.company = company
         self.title = title
+        self.status = "NEW"
+        self.scraped_dt = datetime()
 
     def __repr__(self):
         return '{} : {}'.format(self.company, self.title)
