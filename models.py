@@ -11,6 +11,7 @@ class Listing(db.Model):
     company = db.Column(db.String(32))
     title = db.Column(db.String(128))
     status = db.Column(db.String(10))
+    scraped_dt = db.Column(db.DateTime())
 
     def __init__(self, url, company, title):
         self.url = url
