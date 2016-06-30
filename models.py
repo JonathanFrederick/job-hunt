@@ -17,7 +17,7 @@ class Listing(db.Model):
         self.company = company
         self.title = title
         self.status = "NEW"
-        self.scraped_dt = datetime()
+        self.scraped_dt = datetime.now()
 
     def __repr__(self):
         return '{} : {}'.format(self.company, self.title)
