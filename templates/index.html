@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
   <ul>
-    {% for listing in listings %}
-    <li><a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a></li>
+    {% for new_listing in new_listings %}
+    <li>
+      <a href="{{ new_listing.url }}" target="_blank">{{ new_listing.title }}</a>
+    </li>
     {% endfor %}
   </ul>
 </html>
