@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, request, render_template, make_response
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -15,6 +15,14 @@ from models import Listing
 def index():
     new_listings = db.session.query(Listing).filter(Listing.status == "NEW")
     return render_template('index.html', new_listings=new_listings)
+
+
+@app.route("/update-status", methods=['POST'])
+def update_status():
+    listing = db.session.query(Listing).get(request.form['id_num'])
+    listing.status = request.form['status']
+    db.session.commit()
+    return make_response(("Status Updated", 200, None))
 
 if __name__ == "__main__":
     app.run()
