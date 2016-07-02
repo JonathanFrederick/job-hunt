@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from sqlalchemy.orm.exc import MultipleResultsFound
+
 from time import time
 from datetime import datetime
 
@@ -12,7 +14,7 @@ from models import Listing
 
 
 def current_time():
-    return datetime.fromtimestamp(time()).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.fromtimestamp(time()).now().strftime('%Y-%m-%d %H:%M:%S')
 
 
 def wait_for_element(driver, xpath):
@@ -94,8 +96,25 @@ def get_content(driver):
             'job_sum': job_sum,
             'responsibilities': resps,
             'skills': skills,
-            'time_scraped': current_time()
+            # 'time_scraped': current_time()
             }
+
+
+def exists(listing):
+    try:
+        q = db.session.query(Listing).filter(
+            Listing.title == listing['title'],
+            Listing.company == listing['company']).one_or_none()
+        if q:
+            q.seen_now()
+            print("Updating last_seen for {} - {}"
+                  .format(listing['company'], listing['title']))
+            return q
+        else:
+            return q
+    except MultipleResultsFound:
+        print("Found multiple results for {} - {}"
+              .format(listing['company'], listing['title']))
 
 
 def db_entry(listing):
@@ -116,7 +135,6 @@ def red_hat(driver):
 
     # assert page_title in driver.title, \
     #     "'{}' not found, check url".format(page_title)
-
     driver = fill_form(driver)
     urls = get_listing_urls(driver)
     listings = []
@@ -125,7 +143,8 @@ def red_hat(driver):
         driver = get_frame(driver, url)
         listing = get_content(driver)
         listing['url'] = url
-        db_entry(listing)
+        if not exists(listing):
+            db_entry(listing)
         listings.append(listing)
 
     print(listings)
