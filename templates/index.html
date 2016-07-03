@@ -2,21 +2,19 @@
 <html>
   <head>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
   </head>
   <body>
     <ul>
       <h3>NEW</h3>
       {% for new_listing in new_listings %}
       <li>
-        <form action="{{ url_for('update_status') }}" method=post class="statusUpdate">
-          <select name="status">
-            <option value="INTERESTED">INTERESTED</option>
-            <option value="MAYBE LATER">MAYBE LATER</option>
-            <option value="NEVER">NEVER</option>
-          </select>
-          <input type="hidden" name="id_num" value="{{ new_listing.id }}">
-          <input type="submit" value="&#x2713;">
-        </form>
+        <select name="status" id="{{ new_listing.id }}">
+          <option value="INTERESTED">INTERESTED</option>
+          <option value="MAYBE LATER">MAYBE LATER</option>
+          <option value="NEVER">NEVER</option>
+        </select>
+        <button onclick="changeStatus({{ new_listing.id }})">&#x2713;</button>
         <a href="{{ new_listing.url }}" target="_blank">{{ new_listing.title }}</a>
       </li>
       {% endfor %}
