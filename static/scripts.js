@@ -5,7 +5,6 @@ function changeStatus(id_num) {
   var st = document.getElementById(id_num).value;
   httpRequest.onreadystatechange = function() {
     if (alertContents() == true) {
-      alert(httpRequest.responseText)
       moveNode(st, id_num)
     }
   };
@@ -32,6 +31,29 @@ function moveNode(new_st, id_num) {
   }
   else {
     var new_par = document.getElementById(new_st)
-    new_par.appendChild(old_node)
+    switch(new_st) {
+      case "INTERESTED":
+        next_st = ["APPLIED"]
+        break;
+      case "APPLIED":
+        next_st = ["REJECTED", "INTERVIEWED"]
+        break;
+      case "INTERVIEWED":
+        next_st = ["OFFER"]
+        break;
+      case "MAYBE LATER":
+        next_st = ["INTERESTED"]
+        break;
+    };
+    var sel = old_node.getElementsByTagName("select")[0];
+    sel.removeChild(sel.querySelectorAll("[value="+new_st+"]")[0]);
+    for (x in next_st) {
+      var new_opt = document.createElement("option");
+      new_opt.value = next_st[x];
+      new_opt.selected = "selected";
+      new_opt.appendChild(document.createTextNode(next_st[x]))
+      sel.insertBefore(new_opt, sel.firstChild)
+    };
+    new_par.insertBefore(old_node, new_par.firstChild.nextSibling.nextSibling);
   }
 }
