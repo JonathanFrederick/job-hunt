@@ -5,7 +5,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
   </head>
   <body>
-    <ul>
+    <ul id="NEW">
       <h3>NEW</h3>
       {% for new_listing in new_listings %}
       <li>
@@ -16,6 +16,21 @@
         </select>
         <button onclick="changeStatus({{ new_listing.id }})">&#x2713;</button>
         <a href="{{ new_listing.url }}" target="_blank">{{ new_listing.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <ul id="INTERESTED">
+      <h3>INTERESTED</h3>
+      {% for int_listing in int_listings %}
+      <li>
+        <select name="status" id="{{ int_listing.id }}">
+          <option value="APPLIED">APPLIED</option>
+          <option value="MAYBE LATER">MAYBE LATER</option>
+          <option value="NEVER">NEVER</option>
+        </select>
+        <button onclick="changeStatus({{ int_listing.id }})">&#x2713;</button>
+        <a href="{{ int_listing.url }}" target="_blank">{{ int_listing.title }}</a>
       </li>
       {% endfor %}
     </ul>
