@@ -14,7 +14,11 @@ from models import Listing
 @app.route("/", methods=['GET'])
 def index():
     new_listings = db.session.query(Listing).filter(Listing.status == "NEW")
-    return render_template('index.html', new_listings=new_listings)
+    int_listings = db.session.query(Listing).filter(Listing.status ==
+                                                    "INTERESTED")
+    return render_template('index.html',
+                           new_listings=new_listings,
+                           int_listings=int_listings)
 
 
 @app.route("/update-status", methods=['POST'])
@@ -22,7 +26,7 @@ def update_status():
     listing = db.session.query(Listing).get(request.form['id_num'])
     listing.status = request.form['status']
     db.session.commit()
-    return make_response(("Status Updated", 200, None))
+    return make_response("Status Updated")
 
 if __name__ == "__main__":
     app.run()
