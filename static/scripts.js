@@ -54,6 +54,10 @@ function moveNode(new_st, id_num) {
       new_opt.appendChild(document.createTextNode(next_st[x]))
       sel.insertBefore(new_opt, sel.firstChild)
     };
-    new_par.insertBefore(old_node, new_par.firstChild.nextSibling.nextSibling);
-  }
-}
+    if (httpRequest.responseText != false) {
+      new_par.insertBefore(old_node, document.getElementById(httpRequest.responseText));
+    } else {
+      new_par.appendChild(old_node);
+    };
+  };
+};
