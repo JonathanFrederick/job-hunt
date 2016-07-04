@@ -36,15 +36,19 @@ function moveNode(new_st, id_num) {
         next_st = ["APPLIED"]
         break;
       case "APPLIED":
-        next_st = ["REJECTED", "INTERVIEWED"]
+        next_st = ["REJECTED", "INTERVIEW"]
         break;
-      case "INTERVIEWED":
+      case "INTERVIEW":
         next_st = ["OFFER"]
         break;
-      case "MAYBE LATER":
+      case "OFFER":
+        next_st = []
+        break;
+      case "LATER":
         next_st = ["INTERESTED"]
         break;
     };
+
     var sel = old_node.getElementsByTagName("select")[0];
     sel.removeChild(sel.querySelectorAll("[value="+new_st+"]")[0]);
     for (x in next_st) {
@@ -54,6 +58,7 @@ function moveNode(new_st, id_num) {
       new_opt.appendChild(document.createTextNode(next_st[x]))
       sel.insertBefore(new_opt, sel.firstChild)
     };
+
     if (httpRequest.responseText != false) {
       new_par.insertBefore(old_node, document.getElementById(httpRequest.responseText));
     } else {
