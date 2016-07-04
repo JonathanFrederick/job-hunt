@@ -13,9 +13,12 @@ from models import Listing
 
 @app.route("/", methods=['GET'])
 def index():
-    new_listings = db.session.query(Listing).filter(Listing.status == "NEW")
-    int_listings = db.session.query(Listing).filter(Listing.status ==
-                                                    "INTERESTED")
+    new_listings = db.session.query(Listing) \
+        .filter(Listing.status == "NEW") \
+        .order_by(Listing.scraped_dt)
+    int_listings = db.session.query(Listing) \
+        .filter(Listing.status == "INTERESTED") \
+        .order_by(Listing.scraped_dt)
     return render_template('index.html',
                            new_listings=new_listings,
                            int_listings=int_listings)
