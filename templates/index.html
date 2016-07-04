@@ -7,30 +7,91 @@
   <body>
     <ul id="NEW">
       <h3>NEW</h3>
-      {% for new_listing in new_listings %}
-      <li id="{{ new_listing.scraped_dt }}">
-        <select name="status" id="{{ new_listing.id }}">
+      {% for listing in new_listings %}
+      <li id="{{ listing.scraped_dt }}">
+        <select name="status" id="{{ listing.id }}">
           <option value="INTERESTED">INTERESTED</option>
-          <option value="MAYBE LATER">MAYBE LATER</option>
+          <option value="LATER">LATER</option>
           <option value="NEVER">NEVER</option>
         </select>
-        <button onclick="changeStatus({{ new_listing.id }})">&#x2713;</button>
-        <a href="{{ new_listing.url }}" target="_blank">{{ new_listing.title }}</a>
+        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
+        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
       </li>
       {% endfor %}
     </ul>
 
     <ul id="INTERESTED">
       <h3>INTERESTED</h3>
-      {% for int_listing in int_listings %}
-      <li id="{{ int_listing.scraped_dt }}">
-        <select name="status" id="{{ int_listing.id }}">
+      {% for listing in int_listings %}
+      <li id="{{ listing.scraped_dt }}">
+        <select name="status" id="{{ listing.id }}">
           <option value="APPLIED">APPLIED</option>
-          <option value="MAYBE LATER">MAYBE LATER</option>
+          <option value="LATER">LATER</option>
           <option value="NEVER">NEVER</option>
         </select>
-        <button onclick="changeStatus({{ int_listing.id }})">&#x2713;</button>
-        <a href="{{ int_listing.url }}" target="_blank">{{ int_listing.title }}</a>
+        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
+        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <ul id="APPLIED">
+      <h3>APPLIED</h3>
+      {% for listing in app_listings %}
+      <li id="{{ listing.scraped_dt }}">
+        <select name="status" id="{{ listing.id }}">
+          <option value="INTERVIEW">INTERVIEW</option>
+          <option value="REJECTED">REJECTED</option>
+          <option value="LATER">LATER</option>
+          <option value="NEVER">NEVER</option>
+        </select>
+        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
+        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <ul id="INTERVIEW">
+      <h3>INTERVIEW</h3>
+      {% for listing in intv_listings %}
+      <li id="{{ listing.scraped_dt }}">
+        <select name="status" id="{{ listing.id }}">
+          <option value="OFFER">OFFER</option>
+          <option value="REJECTED">REJECTED</option>
+          <option value="LATER">LATER</option>
+          <option value="NEVER">NEVER</option>
+        </select>
+        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
+        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <ul id="OFFER">
+      <h3>OFFER</h3>
+      {% for listing in off_listings %}
+      <li id="{{ listing.scraped_dt }}">
+        <select name="status" id="{{ listing.id }}">
+          <option value="LATER">LATER</option>
+          <option value="NEVER">NEVER</option>
+        </select>
+        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
+        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <ul id="LATER">
+      <h3>LATER</h3>
+      {% for listing in mbl_listings %}
+      <li id="{{ listing.scraped_dt }}">
+        <select name="status" id="{{ listing.id }}">
+          <option value="INTERESTED">INTERESTED</option>
+          <option value="LATER">LATER</option>
+          <option value="NEVER">NEVER</option>
+        </select>
+        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
+        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
       </li>
       {% endfor %}
     </ul>
