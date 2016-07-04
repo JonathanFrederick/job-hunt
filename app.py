@@ -26,10 +26,26 @@ def index():
 
 @app.route("/update-status", methods=['POST'])
 def update_status():
+    """
+    A view that receives a listing to change the status of and
+    return the datetime of the Listing to insertBefore
+    """
+    # Grab listing and new status
     listing = db.session.query(Listing).get(request.form['id_num'])
-    listing.status = request.form['status']
+    status = request.form['status']
+    # Grab new Listing list
+    listings = db.session.query(Listing) \
+        .filter(Listing.status == status) \
+        .order_by(Listing.scraped_dt)
+    # Set new status and commit change
+    listing.status = status
     db.session.commit()
-    return make_response("Status Updated")
+    # Find next listing in order by scraped datetime
+    # Return as a string if it exists
+    for l in listings:
+        if(l.scraped_dt > listing.scraped_dt):
+            return str(l.scraped_dt)
+    return make_response("")
 
 if __name__ == "__main__":
     app.run()
