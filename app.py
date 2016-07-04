@@ -19,9 +19,25 @@ def index():
     int_listings = db.session.query(Listing) \
         .filter(Listing.status == "INTERESTED") \
         .order_by(Listing.scraped_dt)
+    app_listings = db.session.query(Listing) \
+        .filter(Listing.status == "APPLIED") \
+        .order_by(Listing.scraped_dt)
+    intv_listings = db.session.query(Listing) \
+        .filter(Listing.status == "INTERVIEW") \
+        .order_by(Listing.scraped_dt)
+    off_listings = db.session.query(Listing) \
+        .filter(Listing.status == "OFFERED") \
+        .order_by(Listing.scraped_dt)
+    mbl_listings = db.session.query(Listing) \
+        .filter(Listing.status == "LATER") \
+        .order_by(Listing.scraped_dt)
     return render_template('index.html',
                            new_listings=new_listings,
-                           int_listings=int_listings)
+                           int_listings=int_listings,
+                           app_listings=app_listings,
+                           intv_listings=intv_listings,
+                           off_listings=off_listings,
+                           mbl_listings=mbl_listings)
 
 
 @app.route("/update-status", methods=['POST'])
