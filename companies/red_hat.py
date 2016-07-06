@@ -20,12 +20,9 @@ def current_time():
 def wait_for_element(driver, xpath):
     wait = WebDriverWait(driver, 10)
     try:
-        elem = wait.until(EC.presence_of_element_located(
-            (By.XPATH, xpath))
-        )
+        elem = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
     finally:
         pass
-
     return elem
 
 
@@ -96,7 +93,6 @@ def get_content(driver):
             'job_sum': job_sum,
             'responsibilities': resps,
             'skills': skills,
-            # 'time_scraped': current_time()
             }
 
 
@@ -121,25 +117,18 @@ def db_entry(listing):
     entry = Listing(
         url=listing['url'],
         company=listing['company'],
-        title=listing['title']
-    )
+        title=listing['title'])
     db.session.add(entry)
     db.session.commit()
 
 
 def red_hat(driver):
     page_url = 'https://careers-redhat.icims.com/jobs/search'
-    page_title = 'Red Hat Jobs'
-    # driver.get(page_url)
     driver = get_frame(driver, page_url)
-
-    # assert page_title in driver.title, \
-    #     "'{}' not found, check url".format(page_title)
     driver = fill_form(driver)
     urls = get_listing_urls(driver)
     listings = []
     for url in urls:
-        # print(url)
         driver = get_frame(driver, url)
         listing = get_content(driver)
         listing['url'] = url
@@ -147,4 +136,4 @@ def red_hat(driver):
             db_entry(listing)
         listings.append(listing)
 
-    print(listings)
+    # print(listings)
