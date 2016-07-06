@@ -1,6 +1,8 @@
 from selenium import webdriver
 
 from companies.red_hat import red_hat
+from app import db
+from models import Company
 
 
 def print_result(info):
@@ -20,8 +22,13 @@ def print_result(info):
 
 def main():
     driver = webdriver.Firefox()
-
-    red_hat(driver)
+    company_dict = {
+        "Red Hat": red_hat,
+    }
+    interesting_companies = db.session.query(Company) \
+                                      .filter(Company.interest == True)
+    for comp in interesting_companies:
+        company_dict[comp.name](driver)
 
     driver.close()
     # print_result({'company': 'comp',
