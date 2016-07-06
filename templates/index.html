@@ -5,83 +5,19 @@
     <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
   </head>
   <body>
-    <ul id="NEW">
-      <h3>NEW</h3>
-      {% for listing in new_listings %}
+    {% for st in ["NEW", "INTERESTED", "APPLIED", "INTERVIEW", "OFFER", "LATER"] %}
+    <ul id={{ st }}>
+      <h3>{{ st }}</h3>
+      {% for listing in listings[st] %}
       <li id="{{ listing.scraped_dt }}">
         <select name="status" id="{{ listing.id }}">
-          <script>getOptions("{{ listing.id }}", "NEW")</script>
+          <script>getOptions("{{ listing.id }}", "{{ st }}")</script>
         </select>
         <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
         <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
       </li>
       {% endfor %}
     </ul>
-
-    <ul id="INTERESTED">
-      <h3>INTERESTED</h3>
-      {% for listing in int_listings %}
-      <li id="{{ listing.scraped_dt }}">
-        <select name="status" id="{{ listing.id }}">
-          <script>getOptions("{{ listing.id }}", "INTERESTED")</script>
-        </select>
-        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
-        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-
-    <ul id="APPLIED">
-      <h3>APPLIED</h3>
-      {% for listing in app_listings %}
-      <li id="{{ listing.scraped_dt }}">
-        <select name="status" id="{{ listing.id }}">
-          <script>getOptions("{{ listing.id }}", "APPLIED")</script>
-
-        </select>
-        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
-        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-
-    <ul id="INTERVIEW">
-      <h3>INTERVIEW</h3>
-      {% for listing in intv_listings %}
-      <li id="{{ listing.scraped_dt }}">
-        <select name="status" id="{{ listing.id }}">
-          <script>getOptions("{{ listing.id }}", "INTERVIEW")</script>
-        </select>
-        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
-        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-
-    <ul id="OFFER">
-      <h3>OFFER</h3>
-      {% for listing in off_listings %}
-      <li id="{{ listing.scraped_dt }}">
-        <select name="status" id="{{ listing.id }}">
-          <script>getOptions("{{ listing.id }}", "OFFER")</script>
-        </select>
-        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
-        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-
-    <ul id="LATER">
-      <h3>LATER</h3>
-      {% for listing in mbl_listings %}
-      <li id="{{ listing.scraped_dt }}">
-        <select name="status" id="{{ listing.id }}">
-          <script>getOptions("{{ listing.id }}", "LATER")</script>
-        </select>
-        <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
-        <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
+    {% endfor %}
   </body>
 </html>
