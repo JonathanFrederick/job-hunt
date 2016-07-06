@@ -25,40 +25,24 @@ function alertContents() {
 };
 
 function moveNode(new_st, id_num) {
+  // get <li> to move
   var old_node = document.getElementById(id_num).parentNode
-  if (new_st == "NEVER") {
+  if (new_st == "NEVER" || new_st == "REJECTED") {
     old_node.parentNode.removeChild(old_node)
   }
   else {
+    // get new parent and existing <select> node
     var new_par = document.getElementById(new_st)
-    switch(new_st) {
-      case "INTERESTED":
-        next_st = ["APPLIED"]
-        break;
-      case "APPLIED":
-        next_st = ["REJECTED", "INTERVIEW"]
-        break;
-      case "INTERVIEW":
-        next_st = ["OFFER"]
-        break;
-      case "OFFER":
-        next_st = []
-        break;
-      case "LATER":
-        next_st = ["INTERESTED"]
-        break;
-    };
-
     var sel = old_node.getElementsByTagName("select")[0];
-    sel.removeChild(sel.querySelectorAll("[value="+new_st+"]")[0]);
-    for (x in next_st) {
-      var new_opt = document.createElement("option");
-      new_opt.value = next_st[x];
-      new_opt.selected = "selected";
-      new_opt.appendChild(document.createTextNode(next_st[x]))
-      sel.insertBefore(new_opt, sel.firstChild)
-    };
-
+    // remove each existing <option> in the <select>
+    var num_opts = sel.children.length;
+    var i;
+    for (i = 0; i<num_opts; i++) {
+        sel.removeChild(sel.firstChild);
+    }
+    // get new <options>
+    getOptions(id_num, new_st)
+    // insert <li> into new <ul>
     if (httpRequest.responseText != false) {
       new_par.insertBefore(old_node, document.getElementById(httpRequest.responseText));
     } else {
@@ -66,3 +50,35 @@ function moveNode(new_st, id_num) {
     };
   };
 };
+
+function getOptions(sel_id, status) {
+  var sel = document.getElementById(sel_id);
+  switch(status) {
+    case "NEW":
+      new_opts = ["NEVER", "LATER", "INTERESTED"];
+      break;
+    case "INTERESTED":
+      new_opts = ["NEVER", "LATER", "APPLIED"];
+      break;
+    case "APPLIED":
+      new_opts = ["INTERVIEW", "REJECTED"];
+      break;
+    case "INTERVIEW":
+      new_opts = ["OFFER", "REJECTED"];
+      break;
+    case "OFFER":
+      new_opts = ["ACCEPT?"];
+      break;
+    case "LATER":
+      new_opts = ["NEVER", "INTERESTED"];
+      break;
+  }
+
+  for (x in new_opts) {
+    var new_opt = document.createElement("option");
+    new_opt.value = new_opts[x];
+    new_opt.selected = "selected";
+    new_opt.appendChild(document.createTextNode(new_opts[x]))
+    sel.insertBefore(new_opt, sel.firstChild)
+  };
+}

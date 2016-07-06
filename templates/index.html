@@ -10,9 +10,7 @@
       {% for listing in new_listings %}
       <li id="{{ listing.scraped_dt }}">
         <select name="status" id="{{ listing.id }}">
-          <option value="INTERESTED">INTERESTED</option>
-          <option value="LATER">LATER</option>
-          <option value="NEVER">NEVER</option>
+          <script>getOptions("{{ listing.id }}", "NEW")</script>
         </select>
         <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
         <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
@@ -25,9 +23,7 @@
       {% for listing in int_listings %}
       <li id="{{ listing.scraped_dt }}">
         <select name="status" id="{{ listing.id }}">
-          <option value="APPLIED">APPLIED</option>
-          <option value="LATER">LATER</option>
-          <option value="NEVER">NEVER</option>
+          <script>getOptions("{{ listing.id }}", "INTERESTED")</script>
         </select>
         <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
         <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
@@ -40,10 +36,8 @@
       {% for listing in app_listings %}
       <li id="{{ listing.scraped_dt }}">
         <select name="status" id="{{ listing.id }}">
-          <option value="INTERVIEW">INTERVIEW</option>
-          <option value="REJECTED">REJECTED</option>
-          <option value="LATER">LATER</option>
-          <option value="NEVER">NEVER</option>
+          <script>getOptions("{{ listing.id }}", "APPLIED")</script>
+
         </select>
         <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
         <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
@@ -56,10 +50,7 @@
       {% for listing in intv_listings %}
       <li id="{{ listing.scraped_dt }}">
         <select name="status" id="{{ listing.id }}">
-          <option value="OFFER">OFFER</option>
-          <option value="REJECTED">REJECTED</option>
-          <option value="LATER">LATER</option>
-          <option value="NEVER">NEVER</option>
+          <script>getOptions("{{ listing.id }}", "INTERVIEW")</script>
         </select>
         <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
         <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
@@ -72,8 +63,7 @@
       {% for listing in off_listings %}
       <li id="{{ listing.scraped_dt }}">
         <select name="status" id="{{ listing.id }}">
-          <option value="LATER">LATER</option>
-          <option value="NEVER">NEVER</option>
+          <script>getOptions("{{ listing.id }}", "OFFER")</script>
         </select>
         <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
         <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
@@ -86,9 +76,7 @@
       {% for listing in mbl_listings %}
       <li id="{{ listing.scraped_dt }}">
         <select name="status" id="{{ listing.id }}">
-          <option value="INTERESTED">INTERESTED</option>
-          <option value="LATER">LATER</option>
-          <option value="NEVER">NEVER</option>
+          <script>getOptions("{{ listing.id }}", "LATER")</script>
         </select>
         <button onclick="changeStatus({{ listing.id }})">&#x2713;</button>
         <a href="{{ listing.url }}" target="_blank">{{ listing.title }}</a>
