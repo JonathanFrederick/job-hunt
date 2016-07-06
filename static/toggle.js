@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $(".open_h").click(toggleList);
+  $("#LATER").children(".open_h").click();
 });
 
 function toggleList() {
