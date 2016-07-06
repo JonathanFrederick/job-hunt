@@ -7,7 +7,7 @@
   <body>
     {% for st in ["NEW", "INTERESTED", "APPLIED", "INTERVIEW", "OFFER", "LATER"] %}
     <ul id={{ st }}>
-      <h3>{{ st }}</h3>
+      <h3>{{ st }}<span class="count">0</span></h3>
       {% for listing in listings[st] %}
       <li id="{{ listing.scraped_dt }}">
         <select name="status" id="{{ listing.id }}">
@@ -19,5 +19,6 @@
       {% endfor %}
     </ul>
     {% endfor %}
+    <script>getCounts()</script>
   </body>
 </html>

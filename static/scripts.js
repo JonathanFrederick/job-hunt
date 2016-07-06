@@ -5,7 +5,8 @@ function changeStatus(id_num) {
   var st = document.getElementById(id_num).value;
   httpRequest.onreadystatechange = function() {
     if (alertContents() == true) {
-      moveNode(st, id_num)
+      moveNode(st, id_num);
+      getCounts();
     }
   };
   httpRequest.open('POST', '/update-status', true);
@@ -81,4 +82,11 @@ function getOptions(sel_id, status) {
     new_opt.appendChild(document.createTextNode(new_opts[x]))
     sel.insertBefore(new_opt, sel.firstChild)
   };
+}
+
+function getCounts() {
+  var counts = document.getElementsByClassName("count");
+  for (h in counts) {
+    counts[h].innerHTML = counts[h].parentNode.parentNode.children.length - 1;
+  }
 }
