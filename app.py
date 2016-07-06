@@ -31,13 +31,13 @@ def index():
     mbl_listings = db.session.query(Listing) \
         .filter(Listing.status == "LATER") \
         .order_by(Listing.scraped_dt)
-    return render_template('index.html',
-                           new_listings=new_listings,
-                           int_listings=int_listings,
-                           app_listings=app_listings,
-                           intv_listings=intv_listings,
-                           off_listings=off_listings,
-                           mbl_listings=mbl_listings)
+    return render_template('index.html', listings={
+                           "NEW": new_listings,
+                           "INTERESTED": int_listings,
+                           "APPLIED": app_listings,
+                           "INTERVIEW": intv_listings,
+                           "OFFER": off_listings,
+                           "LATER": mbl_listings})
 
 
 @app.route("/update-status", methods=['POST'])
