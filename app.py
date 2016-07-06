@@ -26,7 +26,7 @@ def index():
         .filter(Listing.status == "INTERVIEW") \
         .order_by(Listing.scraped_dt)
     off_listings = db.session.query(Listing) \
-        .filter(Listing.status == "OFFERED") \
+        .filter(Listing.status == "OFFER") \
         .order_by(Listing.scraped_dt)
     mbl_listings = db.session.query(Listing) \
         .filter(Listing.status == "LATER") \
