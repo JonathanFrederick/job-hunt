@@ -2,12 +2,15 @@
 <html>
   <head>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-    <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+    </script>
   </head>
   <body>
     {% for st in ["NEW", "INTERESTED", "APPLIED", "INTERVIEW", "OFFER", "LATER"] %}
     <ul id={{ st }}>
-      <h3>{{ st }}<span class="count">0</span></h3>
+      <h3 class="open_h"><span class="open_s">-</span>{{ st }}<span class="count"></span></h3>
       {% for listing in listings[st] %}
       <li id="{{ listing.scraped_dt }}">
         <select name="status" id="{{ listing.id }}">
@@ -20,5 +23,7 @@
     </ul>
     {% endfor %}
     <script>getCounts()</script>
+    <script type="text/javascript" src="{{ url_for('static', filename='toggle.js') }}">
+    </script>
   </body>
 </html>

@@ -3,8 +3,11 @@ span.count {
   margin-left: 10px;
 }
 
-h3::before{
-  content: "-";
+span.open_s {
   opacity: .75;
-  margin: 10px;
+  margin-right: 10px;
+}
+
+h3.open_h{
+
 }
