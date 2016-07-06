@@ -1,5 +1,6 @@
 from app import db
 from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.types import String
 from datetime import datetime
 
 
@@ -40,9 +41,9 @@ class Company(db.Model):
     careers_url = db.Column(db.String())
     last_checked = db.Column(db.DateTime())
 
-    keywords = db.Column(ARRAY(db.String(32)))
-    locations = db.Column(ARRAY(db.String(32)))
-    departments = db.Column(ARRAY(db.String(16)))
+    keywords = db.Column(ARRAY(String(32)))
+    locations = db.Column(ARRAY(String(32)))
+    departments = db.Column(ARRAY(String(16)))
 
     def __init__(self, name, careers_url, keywords, locations, departments):
         self.name = name
