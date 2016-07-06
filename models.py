@@ -34,6 +34,7 @@ class Company(db.Model):
     __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(24))
     interest = db.Column(db.Boolean())
 
     careers_url = db.Column(db.String())
@@ -43,7 +44,8 @@ class Company(db.Model):
     locations = db.Column(ARRAY(db.String(32)))
     departments = db.Column(ARRAY(db.String(16)))
 
-    def __init__(self, careers_url, keywords, locations, departments):
+    def __init__(self, name, careers_url, keywords, locations, departments):
+        self.name = name
         self.interest = True
         self.careers_url = careers_url
         self.last_checked = datetime.now()
