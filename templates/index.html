@@ -8,6 +8,7 @@
     </script>
   </head>
   <body>
+  <article>
     {% for st in ["NEW", "INTERESTED", "APPLIED", "INTERVIEW", "OFFER", "LATER"] %}
     <ul id={{ st }}>
       <h3 class="open_h"><span class="open_s">-</span>{{ st }}<span class="count"></span></h3>
@@ -25,5 +26,6 @@
     <script>getCounts()</script>
     <script type="text/javascript" src="{{ url_for('static', filename='toggle.js') }}">
     </script>
+  </article>
   </body>
 </html>
