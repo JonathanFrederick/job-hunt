@@ -61,10 +61,10 @@ function getOptions(sel_id, status) {
       new_opts = ["NEVER", "LATER", "APPLIED"];
       break;
     case "APPLIED":
-      new_opts = ["INTERVIEW", "REJECTED"];
+      new_opts = ["REJECTED", "INTERVIEW"];
       break;
     case "INTERVIEW":
-      new_opts = ["OFFER", "REJECTED"];
+      new_opts = ["REJECTED", "OFFER"];
       break;
     case "OFFER":
       new_opts = ["ACCEPT?"];
