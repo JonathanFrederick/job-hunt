@@ -1,5 +1,5 @@
 from app import db
-from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy.dialects.postgresql import ARRAY
 from datetime import datetime
 
 
@@ -28,3 +28,28 @@ class Listing(db.Model):
 
     def __repr__(self):
         return '{} : {}'.format(self.company, self.title)
+
+
+class Company(db.Model):
+    __tablename__ = 'companies'
+
+    id = db.Column(db.Integer, primary_key=True)
+    interest = db.Column(db.Boolean())
+
+    careers_url = db.Column(db.String())
+    last_checked = db.Column(db.DateTime())
+
+    keywords = db.Column(ARRAY(db.String(32)))
+    locations = db.Column(ARRAY(db.String(32)))
+    departments = db.Column(ARRAY(db.String(16)))
+
+    def __init__(self, careers_url, keywords, locations, departments):
+        self.interest = True
+        self.careers_url = careers_url
+        self.last_checked = datetime.now()
+        self.keywords = keywords
+        self.locations = locations
+        self.departments = departments
+
+    def __repr__(self):
+        return '{} ({})'.format(self.company, self.interest)
