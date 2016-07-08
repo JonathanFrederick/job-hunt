@@ -10,7 +10,7 @@ from time import time
 from datetime import datetime
 
 from app import db
-from models import Listing
+from models import Listing, Company
 
 
 def current_time():
@@ -33,17 +33,19 @@ def get_frame(driver, url):
     return driver
 
 
-def fill_form(driver):
+def fill_form(driver, kw, loc, dpt):
     # move driver to iframe with form
     # driver.switch_to_frame(driver.find_element_by_name('icims_content_iframe'))
 
     # select desired form inputs
     elem = driver.find_element_by_name('searchKeyword')  # Keyword
-    elem.send_keys('python')
+    elem.clear()
+    elem.send_keys(kw)
     driver.find_element_by_xpath(  # Category
-        "//select[@name='searchCategory']/option[@value='17505']").click()
+        "//select[@name='searchCategory']/option[@value={}]".format(dpt)
+        ).click()
     driver.find_element_by_xpath(  # Location
-        "//select[@name='searchLocation']/option[@value='12781-12817-Raleigh']"
+        "//select[@name='searchLocation']/option[@value='{}']".format(loc)
         ).click()
     elem.send_keys(Keys.RETURN)
 
@@ -123,12 +125,18 @@ def db_entry(listing):
 
 
 def red_hat(driver):
-    page_url = 'https://careers-redhat.icims.com/jobs/search'
-    driver = get_frame(driver, page_url)
-    driver = fill_form(driver)
-    urls = get_listing_urls(driver)
+    rh = db.session.query(Company).filter(Company.name == "Red Hat")[0]
+    # page_url = 'https://careers-redhat.icims.com/jobs/search'
+    driver = get_frame(driver, rh.careers_url)
+    all_urls = []
+    for kw in rh.keywords:
+        for loc in rh.locations:
+            for dpt in rh.departments:
+                driver = fill_form(driver, kw, loc, dpt)
+                urls = get_listing_urls(driver)
+                all_urls += urls
     listings = []
-    for url in urls:
+    for url in all_urls:
         driver = get_frame(driver, url)
         listing = get_content(driver)
         listing['url'] = url
