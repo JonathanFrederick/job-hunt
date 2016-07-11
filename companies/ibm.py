@@ -13,9 +13,26 @@ from app import db
 from models import Listing, Company
 
 
+def wait_for_element(driver, xpath):
+    wait = WebDriverWait(driver, 10)
+    try:
+        elem = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+    finally:
+        pass
+    return elem
+
+
+def fill_form(driver, dep, loc, kw):
+    # driver.find_element_by_xpath("//div[@class='powerSearchLink']/a").click
+    elem = wait_for_element(driver, "//div[@class='powerSearchLink']/a")
+    elem.click()
+    return driver
+
 def ibm(driver):
     ibm = db.session.query(Company).filter(Company.name == "IBM")[0]
     driver.get(ibm.careers_url)
+    for dep in ibm.departments:
+        fill_form(driver, dep, '', '')
 
 
     return driver
